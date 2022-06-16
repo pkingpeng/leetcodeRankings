@@ -2,9 +2,11 @@
 import re
 import sys
 from functools import cache
+import datetime
+
 
 import requests
-url = 'https://leetcode-cn.com/graphql'
+url = 'https://leetcode.cn/graphql'
 @cache
 def loadPage(page):
     query = "{\n  localRankingV2(page:" + str(
@@ -86,11 +88,18 @@ total = get1600Count()
 if not total:
     print('internet error')
     sys.exit()
-print("total is", total)
 
 guardian = int(total * 0.05)
 knight = int(total * 0.25)
 g_first, g_last = getUser(1), getUser(guardian)
+stdout_backup = sys.stdout
+# define the log file that receives your log info
+log_file = open("message.log", "w")
+# redirect print output to log file
+sys.stdout = log_file
+print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+print("total is", total)
 print(f"Guardian(top 5%): 共{guardian} 名，守门员 {g_last[0]} 分（uid: {g_last[1]}），最高 {g_first[0]} 分（uid: {g_first[1]})")
 k_first, k_last = getUser(guardian + 1), getUser(knight)
 print(f"Knight(top 25%): 共 {knight} 名，守门员 {k_last[0]} 分（uid: {k_last[1]}），最高 {k_first[0]} 分（uid: {k_first[1]})")
+log_file.close()
