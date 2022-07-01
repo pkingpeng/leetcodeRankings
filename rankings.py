@@ -94,7 +94,7 @@ knight = int(total * 0.25)
 g_first, g_last = getUser(1), getUser(guardian)
 stdout_backup = sys.stdout
 # define the log file that receives your log info
-log_file = open("message.log", "w")
+log_file = open("message.log", "a")
 # redirect print output to log file
 sys.stdout = log_file
 print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
